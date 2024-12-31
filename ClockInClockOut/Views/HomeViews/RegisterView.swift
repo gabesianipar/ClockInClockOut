@@ -51,14 +51,23 @@ struct RegisterView: View {
             }
             
 
-            Button("Register") {
+            Button() {
+                viewModel.register()
                 debugPrint("register")
+            } label: {
+                Text("Register")
+                    .bold()
             }
             .disabled(!self.viewModel.canSend)
             .foregroundColor(.blue)
             .padding(.top, 20)
         }
         .padding()
+        
+        
+    
+            
+        
     }
 }
 

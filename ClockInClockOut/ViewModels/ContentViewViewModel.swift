@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import FirebaseAuth
 
 class ContentViewViewModel: ObservableObject {
     
@@ -41,7 +42,26 @@ class ContentViewViewModel: ObservableObject {
                 
     }
     
+    func register() {
+        Auth.auth().createUser(withEmail: mail, password: pass) { result, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    func login() {
+        Auth.auth().signIn(withEmail: mail, password: pass) { result, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    
 }
+
+
 
 extension String {
     

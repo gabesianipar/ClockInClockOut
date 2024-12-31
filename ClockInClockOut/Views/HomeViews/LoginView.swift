@@ -39,12 +39,20 @@ struct LoginView: View {
                 )
                 .padding(.bottom, 40)
 
-            Button("Login") {
+            Button() {
+                viewModel.login()
                 debugPrint("login")
+            } label: {
+                Text("Login")
+                    .bold()
             }
             .disabled(!self.viewModel.canSend)
             .foregroundColor(.blue)
         }
         .padding()
+        
+        
+        
     }
 }
+
