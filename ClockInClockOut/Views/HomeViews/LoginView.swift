@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     @ObservedObject var viewModel: ContentViewViewModel
+    var onLoginSuccess: () -> Void
 
     var body: some View {
         VStack {
@@ -22,7 +23,7 @@ struct LoginView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .padding(.bottom, 10)
-                
+
                 if !self.viewModel.invalidMail.isEmpty {
                     Text(self.viewModel.invalidMail)
                         .foregroundColor(.red)
@@ -39,9 +40,13 @@ struct LoginView: View {
                 )
                 .padding(.bottom, 40)
 
-            Button() {
-                viewModel.login()
-                debugPrint("login")
+            Button {
+                viewModel.login { success in
+                    if success {
+                        print("login successful")
+                        onLoginSuccess()
+                    }
+                }
             } label: {
                 Text("Login")
                     .bold()
@@ -50,9 +55,8 @@ struct LoginView: View {
             .foregroundColor(.blue)
         }
         .padding()
-        
-        
-        
+        .onAppear {
+                viewModel.isLoginMode = true
+        }
     }
 }
-

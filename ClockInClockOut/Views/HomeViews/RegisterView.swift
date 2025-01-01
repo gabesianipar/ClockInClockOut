@@ -3,6 +3,7 @@ import SwiftUI
 
 struct RegisterView: View {
     @ObservedObject var viewModel: ContentViewViewModel
+    var onRegisterSuccess: () -> Void
 
     var body: some View {
         VStack {
@@ -16,7 +17,7 @@ struct RegisterView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .padding(.bottom, 10)
-                
+
                 if !self.viewModel.invalidMail.isEmpty {
                     Text(self.viewModel.invalidMail)
                         .foregroundColor(.red)
@@ -49,11 +50,14 @@ struct RegisterView: View {
                         .font(.footnote)
                 }
             }
-            
 
-            Button() {
-                viewModel.register()
-                debugPrint("register")
+            Button {
+                viewModel.register { success in
+                    if success {
+                        print("register succesful")
+                        onRegisterSuccess()
+                    }
+                }
             } label: {
                 Text("Register")
                     .bold()
@@ -63,11 +67,10 @@ struct RegisterView: View {
             .padding(.top, 20)
         }
         .padding()
-        
-        
-    
-            
-        
+        .onAppear {
+                viewModel.isLoginMode = false
+        }
     }
 }
+
 
