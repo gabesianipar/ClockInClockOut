@@ -8,11 +8,23 @@
 import SwiftUI
 
 struct HistoryView: View {
+    @ObservedObject var viewModel: ClockViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List {
+            ForEach(viewModel.clockEvents.reversed()) { event in
+                VStack(alignment: .leading) {
+                    Text(Formatters.dateFormatter.string(from: event.clockInTime))
+                        .font(.headline)
+                    Text("Clock In: \(Formatters.timeFormatter.string(from: event.clockInTime))")
+                    if let outTime = event.clockOutTime {
+                        Text("Clock Out: \(Formatters.timeFormatter.string(from: outTime))")
+                        Text("Total Hours: \(String(format: "%.2f", event.totalHours))")
+                            .foregroundColor(.gray)
+                    }
+                }
+                .padding(.vertical, 5)
+            }
+        }
     }
-}
-
-#Preview {
-    HistoryView()
 }

@@ -8,11 +8,36 @@
 import SwiftUI
 
 struct CalendarView: View {
+    @ObservedObject var viewModel: ClockViewModel
+    @Binding var selectedDate: Date
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            DatePicker(
+                "Select Date",
+                selection: $selectedDate,
+                displayedComponents: [.date]
+            )
+            .datePickerStyle(GraphicalDatePickerStyle())
+            .padding()
+            
+            let dailyEvents = viewModel.getEventsForDate(selectedDate)
+            List {
+                ForEach(dailyEvents) { event in
+                    VStack(alignment: .leading) {
+                        Text("Clock In: \(Formatters.timeFormatter.string(from: event.clockInTime))")
+                        if let outTime = event.clockOutTime {
+                            Text("Clock Out: \(Formatters.timeFormatter.string(from: outTime))")
+                            Text("Hours Worked: \(String(format: "%.2f", event.totalHours))")
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
-#Preview {
-    CalendarView()
-}
+
+//#Preview {
+//    CalendarView()
+//}
