@@ -1,4 +1,3 @@
-ClockInClockOut
 A SwiftUI time tracking app that helps users log their work hours with automatic time calculations.
 Features
 
